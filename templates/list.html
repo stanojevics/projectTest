@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Collection</title>
+    <link rel='stylesheet' href='/static/list.css' type='text/css'>
+</head>
+
+<body>
+    <table border=0>
+        <div class="login">
+            <div class="login-screen">
+                <div class="app-title">
+                    <h1>Content</h1>
+                    <a href="/logout">
+                        <button class="btn btn-primary btn-large btn-block">Log Out</button>
+                    </a>
+                </div>
+                <div class='login'>
+                    <thead>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Reading ID
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    City
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Country
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Temperature
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Min Temperature
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Max Temperature
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="login-form">
+                                <div class="control-group">
+                                    Time
+                                </div>
+                            </div>
+                        </td>
+                    </thead>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{row['id']}}</td>
+                        <td>{{row['city']}}</td>
+                        <td>{{row['country']}}</td>
+                        <td>{{row['temperature_current']}}</td>
+                        <td>{{row['temperature_min']}}</td>
+                        <td>{{row['temperature_max']}}</td>
+                        <td>{{row['timestamp']}}</td>
+                    </tr>
+                    {%endfor%}
+
+                </div>
+
+            </div>
+        </div>
+    </table>
+
+
+
+</body>
+
+</html>
