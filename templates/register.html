@@ -2,8 +2,7 @@
 <html>
 
 <head>
-    <title>Home Page</title>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <title>User Registration</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -14,47 +13,51 @@
         {% endfor %}
     </ul>
     {% endif %} {% endwith %}
-    <link rel='stylesheet' href='/static/css/login.css' type='text/css'>
-    <script src='/static/js/login.js'></script>
+    <link rel='stylesheet' href='/static/css/register.css' type='text/css'>
+    <script src='/static/js/register.js'></script>
+
 </head>
 
 <body>
     {% block body %} {% if session['logged_in'] %}
-
     <p>You're logged in already!</p>
     {% else %}
 
     <div class="container">
         <div class='nav-container'>
             <ul class='nav'>
-                <li class='nav-elem'><a href="/register">Register</a></li>
+                <li class='nav-elem'><a href="/">Login</a></li>
                 <li class='nav-elem'><a href="#">About</a></li>
                 <li class='nav-elem'><a href="#">Contacts</a></li>
             </ul>
         </div>
+
         <div class="login-container">
             <div class="title">
-                <h1>Sign <br>In</h1>
+                <h1>Sign Up</h1>
             </div>
             <form>
                 <div class="login-form">
                     <div class="login-form-item">
                         <input type="text" id='inputUsername' value="" placeholder="username" name="username">
                     </div>
+
                     <div class="login-form-item">
                         <input type="password" id='inputPassword' value="" placeholder="password" name="password">
-                    </div>
-                    <button id='btn' class="btn" type="button">Login</button>
-                    <br>
 
+                    </div>
+                    <div class='login-form-item'>
+                        <input type='text' id='inputEmail' value='' placeholder="email" name='email'>
+
+                    </div>
+                    <button id='btn' class="btn" type="button">Register</button>
+                    <!-- ADD SCRIPT: -->
+                    <br>
                 </div>
             </form>
         </div>
-        <div class='footer'>
-
-        </div>
     </div>
-
+    </form>
     {% endif %} {% endblock %}
 </body>
 

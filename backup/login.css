@@ -1,46 +1,46 @@
-* {
-    box-sizing: border-box;
-}
-
-*:focus {
-    outline: none;
-}
-
 body {
     font-family: Arial;
     background-color: #3498DB;
     padding: 50px;
 }
 
-.login {
+.container {
     margin: 20px auto;
     width: 300px;
 }
 
-.login-screen {
+.login-container {
     background-color: #FFF;
     padding: 20px;
     border-radius: 5px
 }
 
-.app-title {
+
+/* DONE: LOGIN  */
+
+.title {
+    font-weight: bold;
     text-align: center;
-    color: #777;
+    font-size: 40px;
+    font-family: "Times New Roman", Times, serif;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #3498DB;
+    color: rgb(36, 231, 231);
 }
 
 .login-form {
     text-align: center;
 }
 
-.control-group {
-    margin-bottom: 10px;
+.login-form-item {
+    margin: 10px 5px;
 }
 
 input {
     text-align: center;
     background-color: #ECF0F1;
+    border-radius: 20px;
     border: 2px solid transparent;
-    border-radius: 3px;
     font-size: 16px;
     font-weight: 200;
     padding: 10px 0;
@@ -53,6 +53,9 @@ input:focus {
     box-shadow: none;
 }
 
+
+/* DONE: */
+
 .btn {
     border: 2px solid transparent;
     background: #3498DB;
@@ -62,7 +65,7 @@ input:focus {
     padding: 10px 0;
     text-decoration: none;
     text-shadow: none;
-    border-radius: 3px;
+    border-radius: 25px;
     box-shadow: none;
     transition: 0.25s;
     display: block;
@@ -71,7 +74,7 @@ input:focus {
 }
 
 .btn:hover {
-    background-color: #2980B9;
+    background-color: rgb(36, 231, 231);
 }
 
 .login-link {
@@ -91,4 +94,44 @@ a {
     text-align: center;
     font-size: 20;
     font-weight: bold;
+}
+
+
+/* NAV CONTAINER */
+
+.nav-container {
+    margin: 0 auto;
+    padding: 2px 5px;
+}
+
+.nav {
+    list-style-type: none;
+    border: 1px solid white;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    background-color: rgb(36, 231, 231);
+    border-radius: 5px;
+}
+
+.nav-elem {
+    display: inline;
+    float: left;
+    vertical-align: middle;
+}
+
+.nav-elem a {
+    display: inline-block;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+}
+
+.nav-elem a:hover:not(.active) {
+    background-color: #3498DB;
+    margin: 10px auto;
+    border-radius: 5px;
 }

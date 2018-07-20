@@ -1,6 +1,17 @@
+##
+# @description: Handles Databases
+# @author: Stanojevic Stefan - 1431858
+# @date: Summer 2018
+#
 import sqlite3 as sql
-import datetime
 from datetime import datetime, time
+import string
+import random
+##
+# @description: Adds 'POST' content, from datacollector
+#               to the content database
+# @params: content to be added (json format)
+#
 def add_to_table(content):
     with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
         cur = con.cursor()
@@ -14,25 +25,75 @@ def add_to_table(content):
             
         con.commit()
     con.close()
+##
+# @description: checks if requested user exists in database
+# @params: 'POST' username and 'POST' password
+#
 def check_for_user(user_name_post, password_post):
     with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM users WHERE user_name=? and password = ?", (user_name_post, password_post))
+        cur.execute("SELECT * FROM registered_users WHERE user_name=? and password = ?", (user_name_post, password_post))
         if len(cur.fetchall()) != 0:
             #print cur.fetchall()
             return True
         return False
+##
+# @description: check if requested email exists in database
+# @params: 'POST' email
+#
 def check_email(email_post):
     with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
         cur= con.cursor()
-        cur.execute('SELECT * FROM users WHERE email=?', (email_post,))
+        cur.execute('SELECT * FROM registered_users WHERE email=?', (email_post,))
         if len(cur.fetchall()) != 0:
             return True
         return False
+##
+# @description: get users id
+# @params: 'POST' username 'POST' password
+#
+def get_user_id(username_post, password_post):
+    with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
+        cur= con.cursor()
+        cur.execute('SELECT * FROM registered_users WHERE user_name=? and password = ?', (username_post, password_post,))
+        return cur.fetchone()[0]
+##
+# @description: adds user to the database
+# @params: username, password, email
+#
 def add_user(username_post, password_post, email_post):
     with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
         cur = con.cursor()
-        cur.execute('INSERT INTO users (user_name, password, email) VALUES (?,?,?)', (username_post, password_post, email_post))
+        id = id_generator()
+        cur.execute('INSERT INTO registered_users (id, user_name, password, email) VALUES (?,?,?,?)', (id, username_post, password_post, email_post))
 
         con.commit()
     con.close()
+##
+# @description: generate ID for the user
+# 
+#
+def id_generator():
+    chars = string.letters + string.digits
+    pwdSize = 7
+    id = 'u.' + ''.join((random.choice(chars)) for x in range(pwdSize))
+    if (check_for_existing_id(id)==True):
+        id_generator()
+    return id
+
+def check_for_existing_id(id):
+    with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
+        cur = con.cursor()
+        cur= con.cursor()
+        cur.execute('SELECT * FROM registered_users WHERE id=?', (id,))
+        if len(cur.fetchall()) != 0:
+                return True
+        return False
+
+def get_content():
+    conn = sql.connect('SmartServiceDevelopmentProjectdb.db') #connect to db
+    conn.row_factory = sql.Row 
+    cur = conn.cursor() #make a cursor
+    cur.execute("SELECT * FROM temp_readings") #select everything with cursor
+    rows = cur.fetchall() #save selected
+    return rows

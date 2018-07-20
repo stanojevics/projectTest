@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial;
+    background-color: #3498DB;
+    padding: 50px;
+}
+
+.container {
+    margin: 20px auto;
+    width: 400px;
+}
+
+.login-container {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 5px
+}
+
+
+/* DONE: LOGIN  */
+
+.title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 40px;
+    font-family: "Times New Roman", Times, serif;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #3498DB;
+    color: rgb(36, 231, 231);
+}
+
+
+/* DONE: */
+
+.btn {
+    border: 2px solid transparent;
+    background: #3498DB;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 25px;
+    padding: 10px 0;
+    text-decoration: none;
+    text-shadow: none;
+    border-radius: 25px;
+    box-shadow: none;
+    transition: 0.25s;
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+}
+
+.btn:hover {
+    background-color: rgb(36, 231, 231);
+}
+
+a {
+    appearance: button;
+    text-decoration: none
+}
+
+
+/* NAV CONTAINER */
+
+.nav-container {
+    margin: 0 auto;
+    padding: 2px 5px;
+}
+
+.nav {
+    list-style-type: none;
+    border: 1px solid white;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    background-color: rgb(36, 231, 231);
+    border-radius: 5px;
+}
+
+.nav-elem {
+    display: inline;
+    float: left;
+    vertical-align: middle;
+}
+
+.nav-elem a {
+    display: inline-block;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+}
+
+.nav-elem a:hover:not(.active) {
+    background-color: #3498DB;
+    margin: 10px auto;
+    border-radius: 5px;
+}
