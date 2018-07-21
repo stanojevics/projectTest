@@ -21,7 +21,7 @@ app = Flask(__name__)
 # @description: handle session, if registered redirect to user page,
 #               otherwise display login page
 #
-
+#fix:
 @app.route('/')
 def home():
     if not session.get('logged_in'):
