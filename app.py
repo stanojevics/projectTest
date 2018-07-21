@@ -26,7 +26,9 @@ app = Flask(__name__)
 def home():
     if not session.get('logged_in'):
         return render_template('login.html')    
-    return terminate_session()
+    print session['logged_in']
+    return redirect(url_for('welcome', user = session['logged_in']))
+    #return terminate_session()
 def terminate_session():
     session['logged_in'] == False
     session.pop('logged_in', None)
@@ -117,7 +119,7 @@ def logout():
 #               in case of 'GET': thoughts and prayers...
 #
 @app.route('/api/validate/', methods = ['POST', 'GET'])
-def testRoute():
+def validate():
     if request.method == 'POST':
         #register case:
         if str(request.form['flag']) == 'register':
@@ -125,8 +127,9 @@ def testRoute():
         #login case:
         elif str(request.form['flag']) == 'login':
             if check_for_user(str(request.form['user']), str(request.form['password'])) == True:
-                session['logged_in'] = True
+                #session['logged_in'] = True
                 user_id = get_user_id(str(request.form['user']), str(request.form['password']))
+                session['logged_in'] = user_id
                 return jsonify({"Status":"ok", "Route":url_for('welcome', user = user_id)})
             else:
                 print ('wrong')
@@ -134,7 +137,7 @@ def testRoute():
                 return 'wrong password'
         elif str(request.form['flag'] == 'logout'):
             session['logged_in'] = False
-            return jsonify({'Status':session['logged_in'], 'Route':url_for('testRoute')})
+            return jsonify({'Status':session['logged_in'], 'Route':url_for('validate')})
 
         else:
                 print ('bad request')
