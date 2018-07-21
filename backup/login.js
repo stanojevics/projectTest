@@ -17,3 +17,38 @@ $(function() {
         });
     });
 });
+
+var contactServer_register = function(data) {
+    $.ajax({
+        type: 'GET',
+        url: '/register',
+        data: data,
+        success: function(response) {
+            console.log(response);
+            console.log(response['Route']);
+            console.log('register');
+            window.location.replace(response['Route']);
+        },
+        error: function(response) {
+            console.log(error);
+        }
+    })
+}
+
+var contactServer_login = function(data) {
+    $.ajax({
+        type: 'POST',
+        url: 'api/validate/',
+        data: data,
+
+        success: function(response) {
+            console.log(response);
+            console.log(response['Route']);
+            console.log(response['user_id'])
+            window.location.replace('/api/users/' + response['user_id']);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    })
+}

@@ -37,39 +37,31 @@ def terminate_session():
 # @route: KEEP THIS ROUTE
 # <TODO: MERGE ROUTES:>
 #
-@app.route('/api/validate/', methods = ['POST', 'GET'])
-def validateRoute():
-    if request.method == 'POST':
-        POST_USERNAME = str(request.form['user'])
-        POST_PASSWORD = str(request.form['password'])
-        if check_for_user(POST_USERNAME, POST_PASSWORD) == True:
-            session['logged_in'] = True
-            user_id = get_user_id(POST_USERNAME, POST_PASSWORD)
-            return jsonify({"Status":"ok", "Route":url_for('home'), "user_id": user_id})
-        else:
-            print ('wrong')
-            flash('wrong password!')
-            return 'wrong password'
-    elif request.method == 'GET':
-        if session['logged_in'] == True:
-            return redirect(url_for('home'))
-        
-        
 
 @app.route('/api/register/', methods = ['POST', 'GET'])
 def registerRoute():
     if request.method == 'POST':
-        POST_USERNAME = str(request.form['user'])
-        POST_PASSWORD = str(request.form['password'])
-        POST_EMAIL = str(request.form['email'])
-        if check_email(POST_EMAIL) == True:
-            flash('Already Registered')
-        else:
-            add_user(POST_USERNAME, POST_PASSWORD, POST_EMAIL)
+        if str(request.form['flag'])=='login':
+            
+            rsp =  jsonify({'Status':'change to login', 'Route':url_for('home')})
+        elif str(request.form['flag'])=='register':
+            if check_email(str(request.form['email'])) == True:
+                flash ('Already Registered')
+                rsp = jsonify({'Status': 'already registered', 'Route':url_for('home')})
+            else:
+                add_user(
+                    str(request.form['user']),
+                    str(request.form['password']),
+                    str(request.form['email'])
+                )
+                rsp =  jsonify({'Status':'ok', 'Route':url_for('home')})
     if request.method == 'GET':
-        return redirect(url_for('home'))
-    return jsonify({"Status":"ok", "Route": url_for('home')})
+        if not session.get('logged_in'):
+            return render_template('register.html')
+        return redirect (url_for('home'))
+    return rsp
 ###########################################################
+#FIX:
 @app.route('/result', methods = ['POST', 'GET'])
 def result():
     #TODO:
@@ -79,9 +71,6 @@ def result():
     return render_template('list.html', rows = rows)
 
 #REGISTER ROUTE: REMOVE SOON
-@app.route('/register', methods = ['GET'])
-def register():
-    return render_template('register.html')
 
 ##  
 # @route: CONTENT
@@ -97,7 +86,7 @@ def welcome(user):
     return render_template('user.html')
 @app.route('/logout')
 def logout():
-    session['logged_in'] == False
+    session['logged_in'] = False
     session.pop('logged_in', None)
     return redirect(url_for('home'))
 #@app.route('/api/messages/', methods=['GET', 'POST'])
@@ -113,8 +102,54 @@ def logout():
 #        else:
 #            #fix content display
 #            return result()
+##
+# @route: startup route, login/register request handling
+# @requests: 'POST' 'GET'
+# @description: handles incoming 'POST' and 'GET' requests
+#               in case of 'POST' with login flag:
+#                           checks the submitted user info and generates
+#                           json response in case of success to the front-end,
+#                           containing route, on which the user is redirected
+#               in case of 'POST' with register flag:
+#                           returns json response to the front-end,
+#                           containing the route for registration event,
+#                           on which user is redirected
+#               in case of 'GET': thoughts and prayers...
+#
+@app.route('/api/validate/', methods = ['POST', 'GET'])
+def testRoute():
+    if request.method == 'POST':
+        #register case:
+        if str(request.form['flag']) == 'register':
+            return jsonify({'Status':'ok', 'Route': request.form['request_url']})
+        #login case:
+        elif str(request.form['flag']) == 'login':
+            if check_for_user(str(request.form['user']), str(request.form['password'])) == True:
+                session['logged_in'] = True
+                user_id = get_user_id(str(request.form['user']), str(request.form['password']))
+                return jsonify({"Status":"ok", "Route":url_for('welcome', user = user_id)})
+            else:
+                print ('wrong')
+                flash('wrong password!')
+                return 'wrong password'
+        elif str(request.form['flag'] == 'logout'):
+            session['logged_in'] = False
+            return jsonify({'Status':session['logged_in'], 'Route':url_for('testRoute')})
 
-
+        else:
+                print ('bad request')
+                flash('bad request')
+                return 'wrong password'
+    #customer is a monkey
+    #monkeys tend to break stuff
+    #protect yourself
+    #protection in my case: 
+    #   like standing with a wooden shield, in front of rocket launcher
+    #solution: thoughts and prayers
+    #idiot proof/customer proof/child proof case:
+    elif request.method == 'GET':
+        return redirect(url_for('home'))
+            
 #Debug Route
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)

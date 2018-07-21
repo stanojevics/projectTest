@@ -7,54 +7,35 @@ window.onload = function() {
 
     myClass[0].addEventListener("click", function(e) {;
         console.log('ye')
-        var data = { request_url: 'register' }
-        contactServer_logout(data);
+        var data = { request_url: '/api/register/', flag: 'register' }
+        contactServer(data)
     })
 }
-var contactServer_logout = function(data) {
+var contactServer = function(data) {
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'api/validate/',
         data: data,
         success: function(response) {
-            console.log(response);
+            console.log(response)
             console.log(response['Route']);
-            console.log('register');
             window.location.replace(response['Route']);
         },
-        error: function(error) {
-            console.log(error);
+        error: function(response) {
+            console.log(response)
         }
     })
 }
+
 var sendForm = function(e) {
-    //e.preventDefault();
     var userNameObject = document.getElementById('inputUsername');
     var userNameValue = userNameObject.value;
 
     var userPasswordObject = document.getElementById('inputPassword');
     var userPasswordValue = userPasswordObject.value;
     // TODO: Validate
-    var data = { user: userNameValue, password: userPasswordValue }
+    var data = { user: userNameValue, password: userPasswordValue, flag: 'login' }
 
     console.log(data);
-    contactServer_login(data)
-}
-
-var contactServer_login = function(data) {
-    $.ajax({
-        type: 'POST',
-        url: 'api/validate/',
-        data: data,
-
-        success: function(response) {
-            console.log(response);
-            console.log(response['Route']);
-            console.log(response['user_id'])
-            window.location.replace('/api/users/' + response['user_id']);
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    })
+    contactServer(data)
 }

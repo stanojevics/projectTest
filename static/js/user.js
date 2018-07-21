@@ -1,26 +1,25 @@
 window.onload = function() {
 
-    var myClass = document.getElementsByClassName('logout-sadwhref');
-
+    var myClass = document.getElementsByClassName('logout-href');
     myClass[0].addEventListener("click", function(e) {;
         console.log('ye')
-        var data = { state: 'false' }
+        var data = { request_url: '/', flag: 'logout' }
 
         console.log(window.location.hostname)
-        contactServer_register(data);
+        contactServer(data);
     })
 }
 
-var contactServer_register = function(data) {
+var contactServer = function(data) {
     $.ajax({
         type: 'POST',
-        url: 'api/users/id',
+        url: '/api/validate/',
         data: data,
         success: function(response) {
             console.log(response);
             console.log(response['Route']);
-            console.log('register');
-            //window.location.replace(response['Route']);
+            console.log(response['Status']);
+            window.location.replace(response['Route']);
         },
         error: function(error) {
             console.log(error);
