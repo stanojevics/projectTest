@@ -21,25 +21,18 @@ app = Flask(__name__)
 # @description: handle session, if registered redirect to user page,
 #               otherwise display login page
 #
-#fix:
+#fix:DONE!
 @app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('login.html')    
     print session['logged_in']
     return redirect(url_for('welcome', user = session['logged_in']))
-    #return terminate_session()
-def terminate_session():
-    session['logged_in'] == False
-    session.pop('logged_in', None)
-    flash('One does not simpley manually change the route...')
-    time.sleep(2) 
-    return redirect (url_for('home'))
+
 ##
 # @route: KEEP THIS ROUTE
 # <TODO: MERGE ROUTES:>
 #
-
 @app.route('/api/register/', methods = ['POST', 'GET'])
 def registerRoute():
     if request.method == 'POST':
@@ -62,17 +55,6 @@ def registerRoute():
             return render_template('register.html')
         return redirect (url_for('home'))
     return rsp
-###########################################################
-#FIX:
-@app.route('/result', methods = ['POST', 'GET'])
-def result():
-    #TODO:
-    if not session.get('logged_in'):
-        return render_template('login.html')
-    rows = get_content()
-    return render_template('list.html', rows = rows)
-
-#REGISTER ROUTE: REMOVE SOON
 
 ##  
 # @route: CONTENT
@@ -86,24 +68,23 @@ def welcome(user):
         return redirect(url_for('home'))
     print session['logged_in']
     return render_template('user.html')
-@app.route('/logout')
-def logout():
-    session['logged_in'] = False
-    session.pop('logged_in', None)
-    return redirect(url_for('home'))
-#@app.route('/api/messages/', methods=['GET', 'POST'])
-#def messages():
-#    if request.method == 'POST':
-#        content = request.json
-#        add_to_table(content)
-#        return jsonify({"Status":"ok"})
-#    elif request.method == 'GET':
-#        #check session:
-#        if not session.get('logged_in'):
-#            return redirect(url_for('home')) 
-#        else:
-#            #fix content display
-#            return result()
+
+@app.route('/api/messages/', methods=['GET', 'POST'])
+def messages():
+    if request.method == 'POST':
+        content = request.json
+        add_to_table(content)
+        return jsonify({"Status":"ok"})
+    elif request.method == 'GET':
+            #fix content display
+            return result()
+def result():
+    #TODO:
+    if not session.get('logged_in'):
+        return redirect(url_for('home'))
+    rows = get_content()
+    return render_template('list.html', rows = rows)
+
 ##
 # @route: startup route, login/register request handling
 # @requests: 'POST' 'GET'
@@ -121,13 +102,13 @@ def logout():
 @app.route('/api/validate/', methods = ['POST', 'GET'])
 def validate():
     if request.method == 'POST':
-        #register case:
+        #register case: redirect to register route
+        print request.form['flag']
         if str(request.form['flag']) == 'register':
             return jsonify({'Status':'ok', 'Route': request.form['request_url']})
-        #login case:
+        #login case: redirect to user/redirect to home
         elif str(request.form['flag']) == 'login':
             if check_for_user(str(request.form['user']), str(request.form['password'])) == True:
-                #session['logged_in'] = True
                 user_id = get_user_id(str(request.form['user']), str(request.form['password']))
                 session['logged_in'] = user_id
                 return jsonify({"Status":"ok", "Route":url_for('welcome', user = user_id)})
@@ -135,10 +116,13 @@ def validate():
                 print ('wrong')
                 flash('wrong password!')
                 return 'wrong password'
-        elif str(request.form['flag'] == 'logout'):
+        #messages: redirect to messages
+        elif str(request.form['flag']) == 'messages':
+            return jsonify({'Status':'ok', 'Route':url_for('messages')})
+        #logout case: redirect to validate
+        elif str(request.form['flag']) == 'logout':
             session['logged_in'] = False
             return jsonify({'Status':session['logged_in'], 'Route':url_for('validate')})
-
         else:
                 print ('bad request')
                 flash('bad request')
@@ -147,7 +131,7 @@ def validate():
     #monkeys tend to break stuff
     #protect yourself
     #protection in my case: 
-    #   like standing with a wooden shield, in front of rocket launcher
+    #   holding a wooden shield, in front of rocket launcher
     #solution: thoughts and prayers
     #idiot proof/customer proof/child proof case:
     elif request.method == 'GET':

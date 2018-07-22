@@ -15,4 +15,16 @@ def validateRoute():
         if session['logged_in'] == True:
             return redirect(url_for('home'))
         
-       
+       #@app.route('/logout')
+#def logout():
+#    session['logged_in'] = False
+#    session.pop('logged_in', None)
+#    return redirect(url_for('home'))
+
+
+def terminate_session():
+    session['logged_in'] == False
+    session.pop('logged_in', None)
+    flash('One does not simpley manually change the route...')
+    time.sleep(2) 
+    return redirect (url_for('home'))

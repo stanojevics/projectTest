@@ -8,6 +8,15 @@ window.onload = function() {
         console.log(window.location.hostname)
         contactServer(data);
     })
+    var contentClass = document.getElementsByClassName('content-href');
+    contentClass[0].addEventListener("click", function(e) {;
+        console.log('ye')
+        var data = { request_url: '/', flag: 'messages' }
+
+        console.log(window.location.hostname)
+        contactServer(data);
+    })
+
 }
 
 var contactServer = function(data) {
@@ -22,6 +31,7 @@ var contactServer = function(data) {
             window.location.replace(response['Route']);
         },
         error: function(error) {
+            console.log('wow')
             console.log(error);
             console.log(window.location)
         }
