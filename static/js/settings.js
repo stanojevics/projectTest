@@ -1,5 +1,6 @@
 window.onload = function() {
-
+    var submitButton = document.getElementById('btn');
+    submitButton.addEventListener('click', sendForm);
     var myClass = document.getElementsByClassName('logout-href');
     myClass[0].addEventListener("click", function(e) {;
         console.log('ye')
@@ -16,21 +17,31 @@ window.onload = function() {
         console.log(window.location.hostname)
         contactServer(data);
     })
-    var settingsClass = document.getElementsByClassName('settings-href');
-    settingsClass[0].addEventListener('click', function(e) {;
-        console.log('settings');
-        var data = { request_url: '/api/users/', flag: 'settings' }
+    var profileClass = document.getElementsByClassName('profile-href');
+    profileClass[0].addEventListener('click', function(e) {;
+        console.log('profile')
+        var data = { request_url: '/', flag: 'register' }
         contactServer(data);
+
     })
+}
 
+var sendForm = function(e) {
+    var oldPasswordObject = document.getElementById('oldPassword');
+    var oldPasswordValue = oldPasswordObject.value;
 
-    var myClass = document.getElementsByClassName('register-href');
+    var newPasswordObject = document.getElementById('newPassword');
+    var newPasswordValue = newPasswordObject.value;
+    // TODO: Validate
+    if (oldPasswordValue === newPasswordValue) {
+        alert('New Password can not be same as old password!');
+    } else {
+        var data = { oldPassword: oldPasswordValue, newPassword: newPasswordValue, flag: 'change-password' }
 
-    myClass[0].addEventListener("click", function(e) {;
-        console.log('ye')
-        var data = { request_url: '/', flag: 'change-password' }
+        console.log(data);
         contactServer(data)
-    })
+    }
+
 }
 
 var contactServer = function(data) {

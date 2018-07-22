@@ -4,7 +4,7 @@ import datetime
 from datetime import datetime, time
 import time
 from time import sleep
-from dbhandling import add_to_table, check_for_user, check_email, add_user, get_content, get_user_id
+from dbhandling import validate_password, change_password, add_to_table, check_for_user, check_email, add_user, get_content, get_user_id
 import os
 # json:
 import json
@@ -68,6 +68,13 @@ def welcome(user):
         return redirect(url_for('home'))
     print session['logged_in']
     return render_template('user.html')
+@app.route('/api/users/<user>/settings', methods = ['GET', 'POST'])
+def settings(user):
+    if request.method == 'GET':
+        if not session.get('logged_in'):
+            return redirect(url_for('home'))
+        print session['logged_in']
+        return render_template('settings.html')
 
 @app.route('/api/messages/', methods=['GET', 'POST'])
 def messages():
@@ -115,7 +122,7 @@ def validate():
             else:
                 print ('wrong')
                 flash('wrong password!')
-                return 'wrong password'
+                return jsonify({"Status":"ok", "Route":url_for('home')})
         #messages: redirect to messages
         elif str(request.form['flag']) == 'messages':
             return jsonify({'Status':'ok', 'Route':url_for('messages')})
@@ -123,6 +130,16 @@ def validate():
         elif str(request.form['flag']) == 'logout':
             session['logged_in'] = False
             return jsonify({'Status':session['logged_in'], 'Route':url_for('validate')})
+        elif str(request.form['flag']) == 'profile':
+            return jsonify({'Status':'ok', 'Route':url_for('home')})
+        elif str(request.form['flag']) == 'settings':
+            return jsonify({'Status': 'ok', 'Route':request.form['request_url']+session['logged_in']+'/settings'})
+        elif str(request.form['flag']) == 'change-password':
+            if validate_password(session['logged_in'], request.form['oldPassword']) == True:
+                change_password(session['logged_in'],request.form['newPassword'])
+                return jsonify({'Status': 'ok','Route':url_for('home')})
+            else:
+                return jsonify({'Status': 'wrong password', 'Route': url_for('home')})
         else:
                 print ('bad request')
                 flash('bad request')

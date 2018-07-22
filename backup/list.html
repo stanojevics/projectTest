@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Collection</title>
+    <link rel='stylesheet' href='/static/css/list.css' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src='/static/js/list.js'></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="nav-container">
+
+            <ul class='nav'>
+                <li class='nav-elem'><a class='logout-href' href="#">Log Out</a></li>
+                <li class='nav-elem'><a href="#">About</a></li>
+                <li class='nav-elem'><a href="#">Contacts</a></li>
+                <li class='nav-elem'><a class='profile-href' href="#">Profile</a></li>
+            </ul>
+        </div>
+
+        <div class='collection-container'>
+            <div class="title">
+                <h1>Content</h1>
+            </div>
+            <table border=0>
+                <thead>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Reading ID
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                City
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Country
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Temperature
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Min Temperature
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Max Temperature
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="nav-elem">
+                            <div class="">
+                                Time
+                            </div>
+                        </div>
+                    </td>
+                </thead>
+                {% for row in rows %}
+                <tr class='nav-container'>
+                    <td class='nav-elem'>{{row['id']}}</td>
+                    <td class='nav-elem'>{{row['city']}}</td>
+                    <td class='nav-elem'>{{row['country']}}</td>
+                    <td class='nav-elem'>{{row['temperature_current']}}</td>
+                    <td class='nav-elem'>{{row['temperature_min']}}</td>
+                    <td class='nav-elem'>{{row['temperature_max']}}</td>
+                    <td class='nav-elem'>{{row['timestamp']}}</td>
+                </tr>
+                {%endfor%}
+
+        </div>
+
+    </div>
+
+    </table>
+
+
+
+</body>
+
+</html>

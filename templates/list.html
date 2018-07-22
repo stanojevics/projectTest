@@ -3,100 +3,73 @@
 
 <head>
     <title>Collection</title>
-    <link rel='stylesheet' href='/static/css/list.css' type='text/css'>
+    <!-- SCRIPTS: -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src='/static/js/user.js'></script>
-</head>
+    <script src='/static/js/list.js'></script>
+    <!-- STYLES: -->
+    <link rel='stylesheet' href='/static/css/list.css' </head>
 
-<body>
-
-    <div class="container">
-        <div class="nav-container">
-
-            <ul class='nav'>
-                <li class='nav-elem'><a class='logout-href' href="#">Log Out</a></li>
-                <li class='nav-elem'><a href="#">About</a></li>
-                <li class='nav-elem'><a href="#">Contacts</a></li>
-            </ul>
-        </div>
-
-        <div class='collection-container'>
-            <div class="title">
-                <h1>Content</h1>
+    <body>
+        <div class='container'>
+            <div class='nav-container'>
+                <ul class='nav'>
+                    <li class='nav-elem'><a class='logout-href' href="#">Log Out</a></li>
+                    <li class='nav-elem'><a href="#">About</a></li>
+                    <li class='nav-elem'><a href="#">Contacts</a></li>
+                    <li class='nav-elem'><a class='profile-href' href="#">Profile</a></li>
+                </ul>
             </div>
-            <table border=0>
-                <thead>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Reading ID
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="control-group">
-                                City
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Country
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Temperature
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Min Temperature
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Max Temperature
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="login-form">
-                            <div class="login-form-item">
-                                Time
-                            </div>
-                        </div>
-                    </td>
-                </thead>
-                {% for row in rows %}
-                <tr>
-                    <td>{{row['id']}}</td>
-                    <td>{{row['city']}}</td>
-                    <td>{{row['country']}}</td>
-                    <td>{{row['temperature_current']}}</td>
-                    <td>{{row['temperature_min']}}</td>
-                    <td>{{row['temperature_max']}}</td>
-                    <td>{{row['timestamp']}}</td>
-                </tr>
-                {%endfor%}
+            <div class='content-container'>
+                <div class='title'>
+                    <h1>Messages Content</h1>
+                </div>
+                <table>
+                    <tr>
+                        <th>
+                            Reading ID
+                        </th>
+                        <th>
+                            City
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                            Temperature (K)
+                        </th>
+                        <th>
+                            Min Temperature (K)
+                        </th>
+                        <th>
+                            Max Temperature (K)
+                        </th>
+                        <th>
+                            Time
+                        </th>
+                    </tr>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{row['id']}}</td>
+                        <td>{{row['city']}}</td>
+                        <td>{{row['country']}}</td>
+                        <td>{{row['temperature_current']}}</td>
+                        <td>{{row['temperature_min']}}</td>
+                        <td>{{row['temperature_max']}}</td>
+                        <td>{{row['timestamp']}}</td>
+                    </tr>
+                    {%endfor%}
+
+
+
+                </table>
+
+            </div>
 
         </div>
 
-    </div>
-
-    </table>
 
 
-
-</body>
+    </body>
 
 </html>

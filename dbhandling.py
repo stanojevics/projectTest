@@ -97,3 +97,23 @@ def get_content():
     cur.execute("SELECT * FROM temp_readings") #select everything with cursor
     rows = cur.fetchall() #save selected
     return rows
+
+def change_password(id, newPassword):
+     with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
+        cur = con.cursor()
+        cur= con.cursor()
+        cur.execute('SELECT * FROM registered_users WHERE id=?', (id,))
+        if len(cur.fetchall()) != 0:
+                #insert into products (name, price) values ('sprite', 9)
+                #cur.execute("INSERT INTO registered_users (name, price) values ('sprite', 9)")
+                cur.execute("UPDATE registered_users SET password=? WHERE Id=?", (newPassword,id,))
+                return True
+        return False
+def validate_password(id, oldPassword):
+    with sql.connect('SmartServiceDevelopmentProjectdb.db') as con:
+        cur = con.cursor()
+        cur= con.cursor()
+        cur.execute('SELECT * FROM registered_users WHERE id=? and password = ?', (id,oldPassword,))
+        if len(cur.fetchall()) != 0:
+                return True
+        return False
